@@ -162,7 +162,10 @@
 {
     NSLog(@"[LVC] didSelectRowAtIndexPath");
     // Push the web view controller
-    [[self navigationController] pushViewController:webViewController animated:YES];
+    // add a check on split view controller before pushing the WebViewController
+    // for iPad landscape mode where we will have the list on a separate view
+    if (![self splitViewController])
+        [[self navigationController] pushViewController:webViewController animated:YES];
     
     // Grab the selected item
     RSSItem *entry = [[channel items] objectAtIndex:[indexPath row]];
@@ -180,5 +183,14 @@
     // Set the title of the web view controller's navigation item
     [[webViewController navigationItem] setTitle:[entry title]];
 }
+
+// Allow rotation if user is running on iPad (pre-iOS6)
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)io
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        return YES;
+    return io == UIInterfaceOrientationPortrait;
+}
+
 
 @end

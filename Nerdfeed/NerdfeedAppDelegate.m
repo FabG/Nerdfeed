@@ -28,8 +28,29 @@
     WebViewController *wvc = [[WebViewController alloc]init];
     [lvc setWebViewController:wvc];
     
-    // Make that navigation controller the root of the view controller of the window
-    [[self window] setRootViewController:masterNav];
+    // check to make sure we're running on the iPad
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ) {
+        // webViewController must be in navigation controller
+        UINavigationController *detailNav = [[UINavigationController alloc] initWithRootViewController:wvc];
+        
+        // When initializing a UIViewController, we pass it an array limited to 2 view
+        // controllers: master and detail view controllers. The order determines their role
+        NSArray *vcs = [NSArray arrayWithObjects:masterNav, detailNav, nil] ;
+        
+        UISplitViewController *svc = [[UISplitViewController alloc] init];
+        
+        // Set the delegate of the split view controller to the detail VC
+        [svc setDelegate:wvc];
+        
+        [svc setViewControllers:vcs];
+        
+        // Set the root view controller of the window to the split view controller
+        [[self window] setRootViewController:svc];
+    } else {
+        // On non-iPad devices, go with the old version and just add the
+        // single nav controller to the window
+        [[self window] setRootViewController:masterNav];
+    }
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

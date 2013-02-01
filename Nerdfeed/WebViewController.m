@@ -27,4 +27,12 @@
     return (UIWebView *)[self view];
 }
 
+// Allow rotation if user is running on iPad (pre-iOS6)
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)io
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        return YES;
+    return io == UIInterfaceOrientationPortrait;
+}
+
 @end
