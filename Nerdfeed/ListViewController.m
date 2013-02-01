@@ -7,6 +7,7 @@
 //
 
 #import "ListViewController.h"
+#import "RSSChannel.h"
 
 @implementation ListViewController
 
@@ -72,8 +73,30 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     // We are just checking to make sure we are getting the XML
-    NSString *xmlCheck = [[NSString alloc] initWithData:xmlData encoding:NSUTF8StringEncoding];
-    NSLog(@"xmlCheck = %@", xmlCheck);
+    //NSString *xmlCheck = [[NSString alloc] initWithData:xmlData encoding:NSUTF8StringEncoding];
+    //NSLog(@"xmlCheck = %@", xmlCheck);
+    
+    // Create the parser object with the data received from the web service
+    NSXMLParser *parser = [[NSXMLParser alloc]initWithData:xmlData];
+    
+    // Give it a delegate
+    [parser setDelegate:self];
+    
+    // Tell it to start parsing - the document will be parsed and the deledate of NSXMLParser
+    // will get of its delegate messages sent to it before this line finishes execution
+    // It is blocking
+    [parser parse];
+    
+    // Get rid of the XML data as we no longer need it
+    xmlData = nil;
+    
+    // Get rid of the connection
+    connection = nil;
+    
+    // Reload the table.. for now it will be empty
+    [[self tableView] reloadData];
+    NSLog(@"%@\n %@\n%@\n", channel, [channel title], [channel infoString]);
+    
 }
 
 
@@ -96,5 +119,26 @@
                         
 }
 
-
+// implement NSXMLParserDelegate method to cate the start of a "channel" element
+- (void)parser:(NSXMLParser *)parser
+    didStartElement:(NSString *)elementName
+    namespaceURI:(NSString *)namespaceURI
+    qualifiedName:(NSString *)qName
+    attributes:(NSDictionary *)attributeDict
+{
+    NSLog(@"[LVC] %@ found a %@ element", self, elementName);
+    if ([elementName isEqual:@"channel"]) {
+        // if the parser saw a channel, create a new instance, store in our ivar
+        channel = [[RSSChannel alloc]init];
+        NSLog(@"[LVC] Creating Channel object");
+        
+        // Give the channel object a pointer back to ourselves for later
+        [channel setParentParserDelegate:self];
+        
+        // Set the parser's delegate to the channel object
+        [parser setDelegate:channel];
+        NSLog(@"[LVC] Channel is now parser's delegate");
+        
+    }
+}
 @end

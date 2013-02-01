@@ -17,6 +17,8 @@
 		1BC89D9716BA22D9006E20B1 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC89D9616BA22D9006E20B1 /* Default@2x.png */; };
 		1BC89D9916BA22D9006E20B1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC89D9816BA22D9006E20B1 /* Default-568h@2x.png */; };
 		1BC89DA116BA2300006E20B1 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DA016BA2300006E20B1 /* ListViewController.m */; };
+		1BC89DA416BB20D6006E20B1 /* RSSChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DA316BB20D6006E20B1 /* RSSChannel.m */; };
+		1BC89DA716BB5DEB006E20B1 /* RSSItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DA616BB5DEB006E20B1 /* RSSItem.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,10 @@
 		1BC89D9816BA22D9006E20B1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		1BC89D9F16BA2300006E20B1 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
 		1BC89DA016BA2300006E20B1 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
+		1BC89DA216BB20D6006E20B1 /* RSSChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSChannel.h; sourceTree = "<group>"; };
+		1BC89DA316BB20D6006E20B1 /* RSSChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSChannel.m; sourceTree = "<group>"; };
+		1BC89DA516BB5DEB006E20B1 /* RSSItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSItem.h; sourceTree = "<group>"; };
+		1BC89DA616BB5DEB006E20B1 /* RSSItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSItem.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +92,10 @@
 				1BC89D8916BA22D9006E20B1 /* Supporting Files */,
 				1BC89D9F16BA2300006E20B1 /* ListViewController.h */,
 				1BC89DA016BA2300006E20B1 /* ListViewController.m */,
+				1BC89DA216BB20D6006E20B1 /* RSSChannel.h */,
+				1BC89DA316BB20D6006E20B1 /* RSSChannel.m */,
+				1BC89DA516BB5DEB006E20B1 /* RSSItem.h */,
+				1BC89DA616BB5DEB006E20B1 /* RSSItem.m */,
 			);
 			path = Nerdfeed;
 			sourceTree = "<group>";
@@ -173,6 +183,8 @@
 				1BC89D8F16BA22D9006E20B1 /* main.m in Sources */,
 				1BC89D9316BA22D9006E20B1 /* NerdfeedAppDelegate.m in Sources */,
 				1BC89DA116BA2300006E20B1 /* ListViewController.m in Sources */,
+				1BC89DA416BB20D6006E20B1 /* RSSChannel.m in Sources */,
+				1BC89DA716BB5DEB006E20B1 /* RSSItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
