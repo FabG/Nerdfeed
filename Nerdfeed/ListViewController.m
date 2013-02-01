@@ -8,18 +8,31 @@
 
 #import "ListViewController.h"
 #import "RSSChannel.h"
+#import "RSSItem.h"
+#import "WebViewController.h"
 
 @implementation ListViewController
 
+@synthesize webViewController;
+
 // stubs for the required data source methods
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView
+    numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return [[channel items] count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return nil;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
+    }
+    RSSItem *item = [[channel items] objectAtIndex:[indexPath row]];
+    [[cell textLabel] setText:[item title]];
+    
+    return cell;
 }
 
 // method to create a NSURLRequest and a connection
@@ -141,4 +154,31 @@
         
     }
 }
+
+// When user taps on a row in the table view, we want the WebViewController to be pushed onto
+// the navigation stack and the link for the selected RSSItem to be loade into its web view
+- (void)tableView:(UITableView *)tableView
+    didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"[LVC] didSelectRowAtIndexPath");
+    // Push the web view controller
+    [[self navigationController] pushViewController:webViewController animated:YES];
+    
+    // Grab the selected item
+    RSSItem *entry = [[channel items] objectAtIndex:[indexPath row]];
+    
+    // Construct a URL with the link string of the item
+    NSURL *url = [NSURL URLWithString:[entry link]];
+    NSLog(@"[LVC] didSelectRowAtIndexPath - url = %@", url);
+    
+    // Construct a request object with that URL
+    NSURLRequest *req = [NSURLRequest requestWithURL:url];
+    
+    // Load the request into the web view
+    [[webViewController webView] loadRequest:req];
+    
+    // Set the title of the web view controller's navigation item
+    [[webViewController navigationItem] setTitle:[entry title]];
+}
+
 @end

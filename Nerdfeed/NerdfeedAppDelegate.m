@@ -8,6 +8,7 @@
 
 #import "NerdfeedAppDelegate.h"
 #import "ListViewController.h"
+#import "WebViewController.h"
 
 @implementation NerdfeedAppDelegate
 
@@ -21,6 +22,11 @@
     ListViewController *lvc = [[ListViewController alloc]initWithStyle:UITableViewStylePlain];
     
     UINavigationController *masterNav = [[UINavigationController alloc] initWithRootViewController:lvc];
+    
+    // Instantiate WebViewcontroller to show web pages from the selected links and
+    // set it as WebViewController of the ListViewController
+    WebViewController *wvc = [[WebViewController alloc]init];
+    [lvc setWebViewController:wvc];
     
     // Make that navigation controller the root of the view controller of the window
     [[self window] setRootViewController:masterNav];

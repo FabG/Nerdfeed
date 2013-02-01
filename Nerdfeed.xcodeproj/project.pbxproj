@@ -19,6 +19,7 @@
 		1BC89DA116BA2300006E20B1 /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DA016BA2300006E20B1 /* ListViewController.m */; };
 		1BC89DA416BB20D6006E20B1 /* RSSChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DA316BB20D6006E20B1 /* RSSChannel.m */; };
 		1BC89DA716BB5DEB006E20B1 /* RSSItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DA616BB5DEB006E20B1 /* RSSItem.m */; };
+		1BC89DAA16BB6BDF006E20B1 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DA916BB6BDF006E20B1 /* WebViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,8 @@
 		1BC89DA316BB20D6006E20B1 /* RSSChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSChannel.m; sourceTree = "<group>"; };
 		1BC89DA516BB5DEB006E20B1 /* RSSItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSItem.h; sourceTree = "<group>"; };
 		1BC89DA616BB5DEB006E20B1 /* RSSItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSItem.m; sourceTree = "<group>"; };
+		1BC89DA816BB6BDF006E20B1 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		1BC89DA916BB6BDF006E20B1 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +99,8 @@
 				1BC89DA316BB20D6006E20B1 /* RSSChannel.m */,
 				1BC89DA516BB5DEB006E20B1 /* RSSItem.h */,
 				1BC89DA616BB5DEB006E20B1 /* RSSItem.m */,
+				1BC89DA816BB6BDF006E20B1 /* WebViewController.h */,
+				1BC89DA916BB6BDF006E20B1 /* WebViewController.m */,
 			);
 			path = Nerdfeed;
 			sourceTree = "<group>";
@@ -185,6 +190,7 @@
 				1BC89DA116BA2300006E20B1 /* ListViewController.m in Sources */,
 				1BC89DA416BB20D6006E20B1 /* RSSChannel.m in Sources */,
 				1BC89DA716BB5DEB006E20B1 /* RSSItem.m in Sources */,
+				1BC89DAA16BB6BDF006E20B1 /* WebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
