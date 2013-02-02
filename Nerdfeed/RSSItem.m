@@ -14,12 +14,12 @@
 @synthesize title, link, parentParserDelegate;
 
 - (void)parser:(NSXMLParser *)parser
-didStartElement:(NSString *)elementName
-  namespaceURI:(NSString *)namespaceURI
- qualifiedName:(NSString *)qualifiedName
+    didStartElement:(NSString *)elementName
+    namespaceURI:(NSString *)namespaceURI
+    qualifiedName:(NSString *)qualifiedName
     attributes:(NSDictionary *)attributeDict
 {
-    NSLog(@"\t\t%@ found a %@ element", self, elementName);
+    //NSLog(@"\t\t%@ found a %@ element", self, elementName);
     
     if ([elementName isEqual:@"title"]) {
         currentString = [[NSMutableString alloc] init];
@@ -37,14 +37,15 @@ didStartElement:(NSString *)elementName
 }
 
 - (void)parser:(NSXMLParser *)parser
- didEndElement:(NSString *)elementName
-  namespaceURI:(NSString *)namespaceURI
- qualifiedName:(NSString *)qName
+    didEndElement:(NSString *)elementName
+    namespaceURI:(NSString *)namespaceURI
+    qualifiedName:(NSString *)qName
 {
     currentString = nil;
     
     
-    if ([elementName isEqual:@"item"]) {
+    if ([elementName isEqual:@"item"]
+        ||[elementName isEqual:@"entry"]) {
         [parser setDelegate:parentParserDelegate];
     }
 }

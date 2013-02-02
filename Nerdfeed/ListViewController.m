@@ -22,6 +22,7 @@
 
 - (void)transferBarButtonToViewController:(UIViewController *)vc
 {
+    NSLog(@"[LVC] transferBarButtonToViewController");
     // Get the navigation controller in the detail spot of the split view controller
     UINavigationController *nvc = [[[self splitViewController] viewControllers]
                                    objectAtIndex:1];
@@ -42,12 +43,13 @@
     // Remove the bar button item from the current view controller's nav item
     [currentVCItem setLeftBarButtonItem:nil];
 }
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     
     if (self) {
-        [self fetchEntries];
+
         UIBarButtonItem *bbi =
         [[UIBarButtonItem alloc] initWithTitle:@"Info"
                                          style:UIBarButtonItemStyleBordered
@@ -56,9 +58,27 @@
         
         [[self navigationItem] setRightBarButtonItem:bbi];
         
+        // Add a UISegmentedControl to the navigationItem that will change the rssType.
+        UISegmentedControl *rssTypeControl = [[ UISegmentedControl alloc] initWithItems: [NSArray arrayWithObjects:@" BNR", @" Apple", nil]];
+        [rssTypeControl setSelectedSegmentIndex: 0];
+        [rssTypeControl setSegmentedControlStyle:UISegmentedControlStyleBar];
+        [rssTypeControl addTarget:self action:@ selector( changeType:) forControlEvents:UIControlEventValueChanged];
+        [[ self navigationItem] setTitleView:rssTypeControl];
+        
+        
+        [self fetchEntries];
+
     }
     
     return self;
+}
+
+// Implement changeType:, which will be sent to the ListViewController when the segmented control changes.
+- (void)changeType:(id)sender
+{
+    NSLog(@"[LVC] changeType");
+    rssType = [sender selectedSegmentIndex];
+    [self fetchEntries];
 }
 
 - (void)showInfo:(id)sender
@@ -157,27 +177,48 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 // New code leveraging our store to fetch entriess
+// with the addition of iTunes RSSfeed, make the appropriate request to the store depending on the
+// current rssType. To do this, move the completion block into a local variable, and then pass it
+// to the right store request method.
 - (void)fetchEntries
 {
-    // Initiate the request
-    [[BNRFeedStore sharedStore] fetchRSSFeedWithCompletion:^( RSSChannel *obj, NSError *err) {
-        
-        // when the request completes, this block will be called
+    NSLog(@"[LVC] fetchEntries");
+    void (^completionBlock) (RSSChannel *obj, NSError *err) =
+    ^(RSSChannel *obj, NSError *err) {
+        // When the request completes, this block will be called
         if (!err) {
             // if everything went ok, grab the channel object, and reload the table
             channel = obj;
+            NSLog(@"[LVC] tableView reloadData");
             [[self tableView] reloadData];
             
         } else {
+            NSLog(@"[LVC] Error...");
             // if things went bad, show an alert view
+            NSString *errorString = [NSString stringWithFormat:@" Fetch failed: %@",
+                                     [err localizedDescription]];
+            
+            // Create and show an alert view with this error displayed
             UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                    message:[err localizedDescription]
+                                                    message:errorString
                                                     delegate:nil
                                                     cancelButtonTitle:@"OK"
                                                     otherButtonTitles: nil];
             [av show];
         }
-        
-    }];
+    };
+    
+    // Initiate the request
+    if (rssType == ListViewControllerRSSTypeBNR)
+    {
+        NSLog(@"[LVC] BNR Request");
+        [[BNRFeedStore sharedStore] fetchRSSFeedWithCompletion:completionBlock];
+    }
+    else if (rssType == ListViewControllerRSSTypeApple)
+    {
+        NSLog(@"[LVC] Apple Request");
+        [[BNRFeedStore sharedStore] fetchTopSongs:10 withCompletion:completionBlock];
+    }
+    
 }
 @end

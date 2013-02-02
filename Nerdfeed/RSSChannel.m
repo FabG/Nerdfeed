@@ -48,7 +48,8 @@
             // Print the location of the match in the string and the string
             NSTextCheckingResult *result = [matches objectAtIndex:0];
             NSRange r = [result range];
-            NSLog(@"Match at {%d, %d} for %@!", r.location, r.length, itemTitle);
+            //NSLog(@"Match at {%d, %d} for %@!", r.location, r.length, itemTitle);
+            
             // One capture group, so two ranges, let's verify
             if([result numberOfRanges] == 2) {
                 
@@ -63,12 +64,12 @@
 }
 
 - (void)parser:(NSXMLParser *)parser
-didStartElement:(NSString *)elementName
-  namespaceURI:(NSString *)namespaceURI
- qualifiedName:(NSString *)qualifiedName
-    attributes:(NSDictionary *)attributeDict
+        didStartElement:(NSString *)elementName
+        namespaceURI:(NSString *)namespaceURI
+        qualifiedName:(NSString *)qualifiedName
+        attributes:(NSDictionary *)attributeDict
 {
-    NSLog(@"\t%@ found a %@ element", self, elementName);
+    //NSLog(@"\t%@ found a %@ element", self, elementName);
     
     if ([elementName isEqual:@"title"]) {
         currentString = [[NSMutableString alloc] init];
@@ -77,7 +78,8 @@ didStartElement:(NSString *)elementName
     else if ([elementName isEqual:@"description"]) {
         currentString = [[NSMutableString alloc] init];
         [self setInfoString:currentString];
-    } else if ([elementName isEqual:@"item"]) {
+    } else if ([elementName isEqual:@"item"]
+               || [elementName isEqual:@"entry"]) {
         // When we find an item, create an instance of RSSItem
         RSSItem *entry = [[RSSItem alloc] init];
         

@@ -32,6 +32,7 @@ static NSMutableArray *sharedConnectionList = nil;  // to keep a strong referenc
 
 - (void)start
 {
+    NSLog(@"\t\t[BNRCnction] start");
     // Initialize container for data collected from NSURLConnection
     dataContainer = [[NSMutableData alloc]init];
     
@@ -53,6 +54,7 @@ static NSMutableArray *sharedConnectionList = nil;  // to keep a strong referenc
 // for NSURLConnection that retrieve the data and report success or failure
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
+    //NSLog(@"\t\t[BNRCnction] connection didReceiveData");
     [dataContainer appendData:data];
     
 }
@@ -63,6 +65,7 @@ static NSMutableArray *sharedConnectionList = nil;  // to keep a strong referenc
 // so that it can be destroyed.
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    NSLog(@"\t\t[BNRCnction] connectionDidFinishLoading");
     // Create a parser with the incoming data and let the root object parse its contents
     NSXMLParser *parser = [[NSXMLParser alloc]initWithData:dataContainer];
     [parser setDelegate:[self xmlRootObject]];
@@ -80,9 +83,10 @@ static NSMutableArray *sharedConnectionList = nil;  // to keep a strong referenc
 // and an error object is passed instead. 
 - (void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+    NSLog(@"\t\t[BNRCnction] connection didFailWithError");
     // Pass the error from the connection to the completionBlock
     if ([self completionBlock])
-        [self completionBlock] (nil,error);
+        [self completionBlock](nil, error);
     
     // Destroy this connection
     [sharedConnectionList removeObject:self];

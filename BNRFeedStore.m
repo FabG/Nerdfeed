@@ -30,6 +30,7 @@
 // an instance of NSError will be passed as an argument, and the RSSChannel will be nil.
 - (void)fetchRSSFeedWithCompletion:(void (^)(RSSChannel *, NSError *))block
 {
+    NSLog(@"\t[BNRStore] fetchRSSFeedWithCompletion block");
     NSURL *url = [NSURL URLWithString:@"http://forums.bignerdranch.com/"
                   @"smartfeed.php?limit=1_DAY&sort_by=standard"
                   @"&feed_type=RSS2.0&feed_style=COMPACT"];
@@ -49,8 +50,35 @@
     [actorConnection setXmlRootObject:channel];
     
     // Begin the connection
+    NSLog(@"\t[BNRStore] actorConnection start");
     [actorConnection start];
+    
 }
 
+// Store (block) for iTunes:
+// method to fetch data from iTunes with an argument on the number of top songs
+- (void) fetchTopSongs:(int)count
+        withCompletion:(void (^)(RSSChannel *, NSError *))block
+{
+    NSLog(@"\t[BNRStore] fetchTopSongs:withCompletion block");
+    // Prepare a request URL, including the argument from the controller
+    NSString *requestString = [NSString
+            stringWithFormat:@"http://itunes.apple.com/us/rss/topsongs/limit=%d/xml", count];
+    
+    NSURL *url = [NSURL URLWithString:requestString];
+    
+    // Set up the connection as normal
+    NSURLRequest *req = [NSURLRequest requestWithURL:url];
+    RSSChannel *channel = [[RSSChannel alloc] init];
+    
+    // Create a connection "actor" object that will transfer data from the server
+    BNRConnection *connection = [[BNRConnection alloc] initWithRequest:req];
+    [connection setCompletionBlock:block];
+    [connection setXmlRootObject:channel];
+    
+    // Begin the connection
+    NSLog(@"\t[BNRStore] actorConnection start");
+    [connection start];
+}
 
 @end
