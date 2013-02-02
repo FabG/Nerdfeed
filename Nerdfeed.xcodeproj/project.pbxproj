@@ -21,6 +21,8 @@
 		1BC89DA716BB5DEB006E20B1 /* RSSItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DA616BB5DEB006E20B1 /* RSSItem.m */; };
 		1BC89DAA16BB6BDF006E20B1 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DA916BB6BDF006E20B1 /* WebViewController.m */; };
 		1BC89DAD16BC29FB006E20B1 /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DAC16BC29FB006E20B1 /* ChannelViewController.m */; };
+		1BC89DB016BD611B006E20B1 /* BNRFeedStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DAF16BD611A006E20B1 /* BNRFeedStore.m */; };
+		1BC89DB316BD747A006E20B1 /* BNRConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DB216BD747A006E20B1 /* BNRConnection.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +49,10 @@
 		1BC89DA916BB6BDF006E20B1 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = Nerdfeed/WebViewController.m; sourceTree = "<group>"; };
 		1BC89DAB16BC29FB006E20B1 /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChannelViewController.h; path = Nerdfeed/ChannelViewController.h; sourceTree = "<group>"; };
 		1BC89DAC16BC29FB006E20B1 /* ChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChannelViewController.m; path = Nerdfeed/ChannelViewController.m; sourceTree = "<group>"; };
+		1BC89DAE16BD611A006E20B1 /* BNRFeedStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRFeedStore.h; sourceTree = "<group>"; };
+		1BC89DAF16BD611A006E20B1 /* BNRFeedStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRFeedStore.m; sourceTree = "<group>"; };
+		1BC89DB116BD747A006E20B1 /* BNRConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRConnection.h; sourceTree = "<group>"; };
+		1BC89DB216BD747A006E20B1 /* BNRConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRConnection.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +72,10 @@
 		1BC89D7616BA22D8006E20B1 = {
 			isa = PBXGroup;
 			children = (
+				1BC89DB116BD747A006E20B1 /* BNRConnection.h */,
+				1BC89DB216BD747A006E20B1 /* BNRConnection.m */,
+				1BC89DAE16BD611A006E20B1 /* BNRFeedStore.h */,
+				1BC89DAF16BD611A006E20B1 /* BNRFeedStore.m */,
 				1BC89DAB16BC29FB006E20B1 /* ChannelViewController.h */,
 				1BC89DAC16BC29FB006E20B1 /* ChannelViewController.m */,
 				1BC89DA216BB20D6006E20B1 /* RSSChannel.h */,
@@ -197,6 +207,8 @@
 				1BC89DA716BB5DEB006E20B1 /* RSSItem.m in Sources */,
 				1BC89DAA16BB6BDF006E20B1 /* WebViewController.m in Sources */,
 				1BC89DAD16BC29FB006E20B1 /* ChannelViewController.m in Sources */,
+				1BC89DB016BD611B006E20B1 /* BNRFeedStore.m in Sources */,
+				1BC89DB316BD747A006E20B1 /* BNRConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

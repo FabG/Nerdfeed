@@ -11,7 +11,7 @@
 #import "RSSItem.h"
 #import "WebViewController.h"
 #import "ChannelViewController.h"
-
+#import "BNRFeedStore.h"
 
 @interface ListViewController ()
 - (void)transferBarButtonToViewController:(UIViewController *)vc;
@@ -19,6 +19,7 @@
 
 @implementation ListViewController
 @synthesize webViewController;
+
 - (void)transferBarButtonToViewController:(UIViewController *)vc
 {
     // Get the navigation controller in the detail spot of the split view controller
@@ -104,6 +105,7 @@
         return YES;
     return io == UIInterfaceOrientationPortrait;
 }
+
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -133,80 +135,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [webViewController listViewController:self handleObject:entry];
 }
 
-- (void)parser:(NSXMLParser *)parser
-didStartElement:(NSString *)elementName
-  namespaceURI:(NSString *)namespaceURI
- qualifiedName:(NSString *)qualifiedName
-    attributes:(NSDictionary *)attributeDict
-{
-    NSLog(@"%@ found a %@ element", self, elementName);
-    if ([elementName isEqual:@"channel"]) {
-        
-        // If the parser saw a channel, create new instance, store in our ivar
-        channel = [[RSSChannel alloc] init];
-        
-        // Give the channel object a pointer back to ourselves for later
-        [channel setParentParserDelegate:self];
-        
-        // Set the parser's delegate to the channel object - ignore this warning for now
-        [parser setDelegate:channel];
-    }
-}
-
-- (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data
-{
-    // Add the incoming chunk of data to the container we are keeping
-    // The data always comes in the correct order
-    [xmlData appendData:data];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)conn
-{
-    // Create the parser object with the data received from the web service
-    NSXMLParser *parser = [[NSXMLParser alloc] initWithData:xmlData];
-    
-    // Give it a delegate
-    [parser setDelegate:self];
-    
-    // Tell it to start parsing - the document will be parsed and
-    // the delegate of NSXMLParser will get all of its delegate messages
-    // sent to it before this line finishes execution - it is blocking
-    [parser parse];
-    
-    // Get rid of the XML data as we no longer need it
-    xmlData = nil;
-    
-    // Get rid of the connection, no longer need it
-    connection = nil;
-    
-    // Reload the table.. for now, the table will be empty.
-    [[self tableView] reloadData];
-    
-    NSLog(@"%@\n %@\n %@\n", channel, [channel title], [channel infoString]);
-}
-
-- (void)connection:(NSURLConnection *)conn
-  didFailWithError:(NSError *)error
-{
-    // Release the connection object, we're done with it
-    connection = nil;
-    
-    // Release the xmlData object, we're done with it
-    xmlData = nil;
-    
-    // Grab the description of the error object passed to us
-    NSString *errorString = [NSString stringWithFormat:@"Fetch failed: %@",
-                             [error localizedDescription]];
-    
-    // Create and show an alert view with this error displayed
-    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                 message:errorString
-                                                delegate:nil
-                                       cancelButtonTitle:@"OK"
-                                       otherButtonTitles:nil];
-    [av show];
-}
-
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
@@ -228,27 +156,28 @@ didStartElement:(NSString *)elementName
     return cell;
 }
 
+// New code leveraging our store to fetch entriess
 - (void)fetchEntries
 {
-    // Create a new data container for the stuff that comes back from the service
-    xmlData = [[NSMutableData alloc] init];
-    
-    // Construct a URL that will ask the service for what you want -
-    // note we can concatenate literal strings together on multiple
-    // lines in this way - this results in a single NSString instance
-    NSURL *url = [NSURL URLWithString:@"http://forums.bignerdranch.com/smartfeed.php?"
-                  @"limit=7_DAY&sort_by=standard&feed_type=RSS2.0&feed_style=COMPACT"];
-    
-    
-    // For Apple's Hot News feed, replace the line above with
-    // NSURL *url = [NSURL URLWithString:@"http://www.apple.com/pr/feeds/pr.rss"];
-    
-    // Put that URL into an NSURLRequest
-    NSURLRequest *req = [NSURLRequest requestWithURL:url];
-    
-    // Create a connection that will exchange this request for data from the URL
-    connection = [[NSURLConnection alloc] initWithRequest:req
-                                                 delegate:self
-                                         startImmediately:YES];
+    // Initiate the request
+    [[BNRFeedStore sharedStore] fetchRSSFeedWithCompletion:^( RSSChannel *obj, NSError *err) {
+        
+        // when the request completes, this block will be called
+        if (!err) {
+            // if everything went ok, grab the channel object, and reload the table
+            channel = obj;
+            [[self tableView] reloadData];
+            
+        } else {
+            // if things went bad, show an alert view
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                    message:[err localizedDescription]
+                                                    delegate:nil
+                                                    cancelButtonTitle:@"OK"
+                                                    otherButtonTitles: nil];
+            [av show];
+        }
+        
+    }];
 }
 @end
