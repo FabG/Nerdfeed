@@ -12,16 +12,21 @@
 
 @implementation NerdfeedAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+@synthesize window = _window;
+
+- (BOOL)application:(UIApplication *)application
+    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
     // Create an instance of ListViewController and set it as root view controller
     // of the navigation controller.
-    ListViewController *lvc = [[ListViewController alloc]initWithStyle:UITableViewStylePlain];
+    ListViewController *lvc =
+        [[ListViewController alloc]initWithStyle:UITableViewStylePlain];
     
-    UINavigationController *masterNav = [[UINavigationController alloc] initWithRootViewController:lvc];
+    UINavigationController *masterNav =
+        [[UINavigationController alloc] initWithRootViewController:lvc];
     
     // Instantiate WebViewcontroller to show web pages from the selected links and
     // set it as WebViewController of the ListViewController
@@ -30,6 +35,8 @@
     
     // check to make sure we're running on the iPad
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad ) {
+        NSLog(@"AppDelegate: iPad recognized - using split view");
+        
         // webViewController must be in navigation controller
         UINavigationController *detailNav = [[UINavigationController alloc] initWithRootViewController:wvc];
         
@@ -49,6 +56,7 @@
     } else {
         // On non-iPad devices, go with the old version and just add the
         // single nav controller to the window
+        NSLog(@"AppDelegate: Non iPad - using single view");
         [[self window] setRootViewController:masterNav];
     }
     

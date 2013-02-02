@@ -20,6 +20,7 @@
 		1BC89DA416BB20D6006E20B1 /* RSSChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DA316BB20D6006E20B1 /* RSSChannel.m */; };
 		1BC89DA716BB5DEB006E20B1 /* RSSItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DA616BB5DEB006E20B1 /* RSSItem.m */; };
 		1BC89DAA16BB6BDF006E20B1 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DA916BB6BDF006E20B1 /* WebViewController.m */; };
+		1BC89DAD16BC29FB006E20B1 /* ChannelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DAC16BC29FB006E20B1 /* ChannelViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,8 @@
 		1BC89DA616BB5DEB006E20B1 /* RSSItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSItem.m; sourceTree = "<group>"; };
 		1BC89DA816BB6BDF006E20B1 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		1BC89DA916BB6BDF006E20B1 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		1BC89DAB16BC29FB006E20B1 /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelViewController.h; sourceTree = "<group>"; };
+		1BC89DAC16BC29FB006E20B1 /* ChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +95,8 @@
 			children = (
 				1BC89D9116BA22D9006E20B1 /* NerdfeedAppDelegate.h */,
 				1BC89D9216BA22D9006E20B1 /* NerdfeedAppDelegate.m */,
+				1BC89DAB16BC29FB006E20B1 /* ChannelViewController.h */,
+				1BC89DAC16BC29FB006E20B1 /* ChannelViewController.m */,
 				1BC89D8916BA22D9006E20B1 /* Supporting Files */,
 				1BC89D9F16BA2300006E20B1 /* ListViewController.h */,
 				1BC89DA016BA2300006E20B1 /* ListViewController.m */,
@@ -191,6 +196,7 @@
 				1BC89DA416BB20D6006E20B1 /* RSSChannel.m in Sources */,
 				1BC89DA716BB5DEB006E20B1 /* RSSItem.m in Sources */,
 				1BC89DAA16BB6BDF006E20B1 /* WebViewController.m in Sources */,
+				1BC89DAD16BC29FB006E20B1 /* ChannelViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

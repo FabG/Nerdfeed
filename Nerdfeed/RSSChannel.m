@@ -31,17 +31,17 @@
         qualifiedName:(NSString *)qName
         attributes:(NSDictionary *)attributeDict
 {
-    NSLog(@"\t[RSSC] %@found a %@ element", self, elementName);
+    //NSLog(@"\t[RSSC] %@found a %@ element", self, elementName);
     
     if ([elementName isEqual:@"title"]) {
         currentString = [[NSMutableString alloc]init];
         [self setTitle:currentString];
-        NSLog(@"\t  [RSSC] Title Found - Creating currentString object");
+        //NSLog(@"\t[RSSC] %@found a %@ element", self, elementName);
     }
     else if ([elementName isEqual:@"description"]) {
         currentString = [[NSMutableString alloc]init];
         [self setInfoString:currentString];
-        NSLog(@"\t  [RSSC] Description Found - Creating currentString object");
+        //NSLog(@"\t[RSSC] %@found a %@ element", self, elementName);
     }
     else if ([elementName isEqual:@"item"]) {
         // When we find an item, create an instance of RSSItem
@@ -49,11 +49,11 @@
         
         // Set up its parent as ourselves so we can regain control of the parser
         [entry setParentParserDelegate:self];
-        NSLog(@"\t  [RSSC] item Found - Creating RSSItem object");
+        NSLog(@"\t[RSSC] %@found a %@ element", self, elementName);
 
         // Turn the parser to the RSSItem
         [parser setDelegate:entry];
-         NSLog(@"\t  [RSSC] Item is now parser's delegate");
+        NSLog(@"\t  [RSSC] Item is now parser's delegate");
         
         // Add the item to our array and release our hold on it
         [items addObject:entry];

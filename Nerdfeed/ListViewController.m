@@ -10,6 +10,7 @@
 #import "RSSChannel.h"
 #import "RSSItem.h"
 #import "WebViewController.h"
+#import "ChannelViewController.h"
 
 @implementation ListViewController
 
@@ -19,19 +20,25 @@
 - (NSInteger)tableView:(UITableView *)tableView
     numberOfRowsInSection:(NSInteger)section
 {
+    NSLog(@"[LVC] number of Row : %i", [[channel items] count]);
     return [[channel items] count];
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+        UITableViewCell *cell =
+        [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+    
     if (cell == nil) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
     }
     RSSItem *item = [[channel items] objectAtIndex:[indexPath row]];
     [[cell textLabel] setText:[item title]];
     
+    NSLog(@"[LVC] title : %@", [item title]);
+
     return cell;
 }
 
@@ -62,8 +69,19 @@
 // override initWithStyle to kick off the exchange whenever the ListViewcontroller is created
 - (id)initWithStyle:(UITableViewStyle)style
 {
+    NSLog(@"[LVC] initWithStyle");
     self = [super initWithStyle:style];
     if (self) {
+        // Add UIbarButtonItem to the ListViewController's navigation Item
+        // to display RSSChannel
+        UIBarButtonItem *bbi=
+            [[UIBarButtonItem alloc] initWithTitle:@"Info"
+                                         style:UIBarButtonItemStyleBordered
+                                        target:self
+                                        action:@selector(showInfo:)];
+        
+        [[self navigationItem] setRightBarButtonItem:bbi];
+        
         [self fetchEntries];
     }
     return self;
@@ -78,6 +96,7 @@
     // Add the incoming chunk of data to the container we are keeping
     // The data will always comes in the correct order
     [xmlData appendData:data];
+    
     NSLog(@"connection:didReceiveData");
 }
 
@@ -108,7 +127,7 @@
     
     // Reload the table.. for now it will be empty
     [[self tableView] reloadData];
-    NSLog(@"%@\n %@\n%@\n", channel, [channel title], [channel infoString]);
+    //NSLog(@"%@\n %@\n%@\n", channel, [channel title], [channel infoString]);
     
 }
 
@@ -165,32 +184,76 @@
     // add a check on split view controller before pushing the WebViewController
     // for iPad landscape mode where we will have the list on a separate view
     if (![self splitViewController])
+    {
+        NSLog(@"Pushing webViewController onto existing navigationController");
         [[self navigationController] pushViewController:webViewController animated:YES];
-    
+    }
+    else {
+
+        // We have to create a new navigation controller, as the old one
+        // was only retained by the split view controller and is now gone
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webViewController];
+        NSLog(@"Creating and Pushing new webViewController");
+        
+        NSArray *vcs = [NSArray arrayWithObjects:[self navigationController], nav, nil];
+        
+        [[self splitViewController]setViewControllers:vcs];
+        
+        // Make the detail view controller the delegate of the split view controller
+        [[self splitViewController] setDelegate:webViewController];
+        
+    }
     // Grab the selected item
     RSSItem *entry = [[channel items] objectAtIndex:[indexPath row]];
     
-    // Construct a URL with the link string of the item
-    NSURL *url = [NSURL URLWithString:[entry link]];
-    NSLog(@"[LVC] didSelectRowAtIndexPath - url = %@", url);
     
-    // Construct a request object with that URL
-    NSURLRequest *req = [NSURLRequest requestWithURL:url];
+    // send the listViewController:handleObject message to WebViewController
+    [webViewController listViewController:self handleObject:entry];
     
-    // Load the request into the web view
-    [[webViewController webView] loadRequest:req];
-    
-    // Set the title of the web view controller's navigation item
-    [[webViewController navigationItem] setTitle:[entry title]];
 }
 
 // Allow rotation if user is running on iPad (pre-iOS6)
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)io
 {
+    NSLog(@"[LVC] shouldAutorotateToInterfaceOrientation");
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         return YES;
     return io == UIInterfaceOrientationPortrait;
 }
 
+// When the button is tapped, the detail view controller in the split view will be replaced with
+// an instance of ChannelViewController.
+- (void)showInfo:(id)sender
+{
+    NSLog(@"[LVC] button tapped -> showinfo");
+    // Create the channel view controller
+    ChannelViewController *channelViewController = [[ChannelViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    
+    if ([self splitViewController]) {
+        UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:channelViewController];
+        
+        // Create an array with our nav controller and this new VS's nav controller
+        NSArray *vcs = [NSArray arrayWithObjects:[self navigationController], nvc, nil];
+        
+        // Grab a pointer to the split view controller
+        // and reset its view controllers array
+        [[self splitViewController] setViewControllers:vcs];
+        
+        // Make detail view controller the delegate of the split view controller
+        [[self splitViewController] setDelegate:channelViewController];
+        
+        // If a row has been selected, deselect it so that a row
+        // is not selected when viewing the info
+        NSIndexPath *selectedRow = [[self tableView] indexPathForSelectedRow];
+        if (selectedRow)
+            [[self tableView] deselectRowAtIndexPath:selectedRow animated:YES];
+        
+    } else {
+        [[self navigationController] pushViewController:channelViewController animated:YES];
+    }
+    
+    // give the VC the channel object through the protocol message
+    [channelViewController listViewController:self handleObject:channel];
+}
 
 @end

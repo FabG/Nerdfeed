@@ -19,17 +19,17 @@
     attributes:(NSDictionary *)attributeDict
 {
     
-    NSLog(@"\t\t[RSSI] %@found a %@ element", self, elementName);
+    //NSLog(@"\t\t[RSSI] %@found a %@ element", self, elementName);
     
     if ([elementName isEqual:@"title"]) {
         currentString = [[NSMutableString alloc]init];
         [self setTitle:currentString];
-        NSLog(@"\t\t  [RSSI] Title Found - Creating currentString object");
+        NSLog(@"\t\t[RSSI] %@found a %@ element", self, elementName);
     }
     else if ([elementName isEqual:@"link"]) {
         currentString = [[NSMutableString alloc]init];
         [self setLink:currentString];
-        NSLog(@"\t\t  [RSSI] Link Found - Creating currentString object");
+        NSLog(@"\t\t[RSSI] %@found a %@ element", self, elementName);
     }
 }
 
@@ -37,7 +37,7 @@
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
 {
     [currentString appendString:string];
-    NSLog(@"\t\t  [RSSI] foundCharacters: %@", string);
+    //NSLog(@"\t\t  [RSSI] foundCharacters: %@", string);
 
 }
 
