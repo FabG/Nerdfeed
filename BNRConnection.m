@@ -17,6 +17,7 @@ static NSMutableArray *sharedConnectionList = nil;  // to keep a strong referenc
 // An instance of this class is a one-shot deal: it runs, it calls back and then it is destroyed
 @implementation BNRConnection 
 @synthesize request, completionBlock, xmlRootObject;
+@synthesize jsonRootObject;
 
 // An instance of BNRConnection, when started, will create an instance of NSURLConnection,
 // initialize it with NSURLRequest and set itself as a delegate of that connection
@@ -65,15 +66,33 @@ static NSMutableArray *sharedConnectionList = nil;  // to keep a strong referenc
 // so that it can be destroyed.
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    id rootObject = nil;
+    
     NSLog(@"\t\t[BNRCnction] connectionDidFinishLoading");
+    
     // Create a parser with the incoming data and let the root object parse its contents
-    NSXMLParser *parser = [[NSXMLParser alloc]initWithData:dataContainer];
-    [parser setDelegate:[self xmlRootObject]];
-    [parser parse];
+    // Check if it is XML or JSON
+    if ([self xmlRootObject]) {
+        NSXMLParser *parser = [[NSXMLParser alloc]initWithData:dataContainer];
+        [parser setDelegate:[self xmlRootObject]];
+        [parser parse];
+        
+        rootObject = [self xmlRootObject];
+    } else if ([self jsonRootObject]) {
+        // turn JSON data into a basic model objects
+        NSDictionary *d = [NSJSONSerialization JSONObjectWithData:dataContainer
+                                                           options:0
+                                                             error:nil];
+        
+        // Have the root object construct itself from basic model objects
+        [[self jsonRootObject] readFromJSONDictionary:d];
+        
+        rootObject = [self jsonRootObject];
+    }
     
     // Then pass the root object to the completion block - block supplied by the controller
     if ([self completionBlock])
-        [self completionBlock] ([self xmlRootObject], nil);
+        [self completionBlock] (rootObject, nil);
     
     // Now destroy this connection
     [sharedConnectionList removeObject:self];

@@ -53,6 +53,7 @@
 		1BC89DAF16BD611A006E20B1 /* BNRFeedStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRFeedStore.m; sourceTree = "<group>"; };
 		1BC89DB116BD747A006E20B1 /* BNRConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BNRConnection.h; sourceTree = "<group>"; };
 		1BC89DB216BD747A006E20B1 /* BNRConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BNRConnection.m; sourceTree = "<group>"; };
+		1BC89DE016BDCCC5006E20B1 /* JSONSerializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONSerializable.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +73,7 @@
 		1BC89D7616BA22D8006E20B1 = {
 			isa = PBXGroup;
 			children = (
+				1BC89DE016BDCCC5006E20B1 /* JSONSerializable.h */,
 				1BC89DB116BD747A006E20B1 /* BNRConnection.h */,
 				1BC89DB216BD747A006E20B1 /* BNRConnection.m */,
 				1BC89DAE16BD611A006E20B1 /* BNRFeedStore.h */,

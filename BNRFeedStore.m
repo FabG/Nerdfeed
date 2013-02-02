@@ -62,8 +62,11 @@
 {
     NSLog(@"\t[BNRStore] fetchTopSongs:withCompletion block");
     // Prepare a request URL, including the argument from the controller
+    // Moving from XML to JSON
+    //NSString *requestString = [NSString
+    //        stringWithFormat:@"http://itunes.apple.com/us/rss/topsongs/limit=%d/xml", count];
     NSString *requestString = [NSString
-            stringWithFormat:@"http://itunes.apple.com/us/rss/topsongs/limit=%d/xml", count];
+                               stringWithFormat:@"http://itunes.apple.com/us/rss/topsongs/limit=%d/json", count];
     
     NSURL *url = [NSURL URLWithString:requestString];
     
@@ -74,7 +77,8 @@
     // Create a connection "actor" object that will transfer data from the server
     BNRConnection *connection = [[BNRConnection alloc] initWithRequest:req];
     [connection setCompletionBlock:block];
-    [connection setXmlRootObject:channel];
+    //[connection setXmlRootObject:channel];
+    [connection setJsonRootObject:channel];
     
     // Begin the connection
     NSLog(@"\t[BNRStore] actorConnection start");

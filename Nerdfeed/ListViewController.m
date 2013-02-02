@@ -22,7 +22,6 @@
 
 - (void)transferBarButtonToViewController:(UIViewController *)vc
 {
-    NSLog(@"[LVC] transferBarButtonToViewController");
     // Get the navigation controller in the detail spot of the split view controller
     UINavigationController *nvc = [[[self splitViewController] viewControllers]
                                    objectAtIndex:1];
