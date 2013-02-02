@@ -9,9 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "ListViewController.h"
 
-@interface ChannelViewController : UITableViewController <ListViewControllerDelegate, UISplitViewControllerDelegate>
+@class RSSChannel;
+@interface ChannelViewController :
+UITableViewController <ListViewControllerDelegate, UISplitViewControllerDelegate>
 {
     RSSChannel *channel;
 }
-
 @end

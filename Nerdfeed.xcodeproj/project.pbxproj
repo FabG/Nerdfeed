@@ -37,16 +37,16 @@
 		1BC89D9416BA22D9006E20B1 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		1BC89D9616BA22D9006E20B1 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		1BC89D9816BA22D9006E20B1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		1BC89D9F16BA2300006E20B1 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
-		1BC89DA016BA2300006E20B1 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
-		1BC89DA216BB20D6006E20B1 /* RSSChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSChannel.h; sourceTree = "<group>"; };
-		1BC89DA316BB20D6006E20B1 /* RSSChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSChannel.m; sourceTree = "<group>"; };
-		1BC89DA516BB5DEB006E20B1 /* RSSItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSItem.h; sourceTree = "<group>"; };
-		1BC89DA616BB5DEB006E20B1 /* RSSItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSItem.m; sourceTree = "<group>"; };
-		1BC89DA816BB6BDF006E20B1 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
-		1BC89DA916BB6BDF006E20B1 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
-		1BC89DAB16BC29FB006E20B1 /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelViewController.h; sourceTree = "<group>"; };
-		1BC89DAC16BC29FB006E20B1 /* ChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelViewController.m; sourceTree = "<group>"; };
+		1BC89D9F16BA2300006E20B1 /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListViewController.h; path = Nerdfeed/ListViewController.h; sourceTree = "<group>"; };
+		1BC89DA016BA2300006E20B1 /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListViewController.m; path = Nerdfeed/ListViewController.m; sourceTree = "<group>"; };
+		1BC89DA216BB20D6006E20B1 /* RSSChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSSChannel.h; path = Nerdfeed/RSSChannel.h; sourceTree = "<group>"; };
+		1BC89DA316BB20D6006E20B1 /* RSSChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSSChannel.m; path = Nerdfeed/RSSChannel.m; sourceTree = "<group>"; };
+		1BC89DA516BB5DEB006E20B1 /* RSSItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSSItem.h; path = Nerdfeed/RSSItem.h; sourceTree = "<group>"; };
+		1BC89DA616BB5DEB006E20B1 /* RSSItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSSItem.m; path = Nerdfeed/RSSItem.m; sourceTree = "<group>"; };
+		1BC89DA816BB6BDF006E20B1 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = Nerdfeed/WebViewController.h; sourceTree = "<group>"; };
+		1BC89DA916BB6BDF006E20B1 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = Nerdfeed/WebViewController.m; sourceTree = "<group>"; };
+		1BC89DAB16BC29FB006E20B1 /* ChannelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChannelViewController.h; path = Nerdfeed/ChannelViewController.h; sourceTree = "<group>"; };
+		1BC89DAC16BC29FB006E20B1 /* ChannelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChannelViewController.m; path = Nerdfeed/ChannelViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +66,16 @@
 		1BC89D7616BA22D8006E20B1 = {
 			isa = PBXGroup;
 			children = (
+				1BC89DAB16BC29FB006E20B1 /* ChannelViewController.h */,
+				1BC89DAC16BC29FB006E20B1 /* ChannelViewController.m */,
+				1BC89DA216BB20D6006E20B1 /* RSSChannel.h */,
+				1BC89DA316BB20D6006E20B1 /* RSSChannel.m */,
+				1BC89D9F16BA2300006E20B1 /* ListViewController.h */,
+				1BC89DA016BA2300006E20B1 /* ListViewController.m */,
+				1BC89DA816BB6BDF006E20B1 /* WebViewController.h */,
+				1BC89DA916BB6BDF006E20B1 /* WebViewController.m */,
+				1BC89DA516BB5DEB006E20B1 /* RSSItem.h */,
+				1BC89DA616BB5DEB006E20B1 /* RSSItem.m */,
 				1BC89D8816BA22D9006E20B1 /* Nerdfeed */,
 				1BC89D8116BA22D9006E20B1 /* Frameworks */,
 				1BC89D8016BA22D9006E20B1 /* Products */,
@@ -95,17 +105,7 @@
 			children = (
 				1BC89D9116BA22D9006E20B1 /* NerdfeedAppDelegate.h */,
 				1BC89D9216BA22D9006E20B1 /* NerdfeedAppDelegate.m */,
-				1BC89DAB16BC29FB006E20B1 /* ChannelViewController.h */,
-				1BC89DAC16BC29FB006E20B1 /* ChannelViewController.m */,
 				1BC89D8916BA22D9006E20B1 /* Supporting Files */,
-				1BC89D9F16BA2300006E20B1 /* ListViewController.h */,
-				1BC89DA016BA2300006E20B1 /* ListViewController.m */,
-				1BC89DA216BB20D6006E20B1 /* RSSChannel.h */,
-				1BC89DA316BB20D6006E20B1 /* RSSChannel.m */,
-				1BC89DA516BB5DEB006E20B1 /* RSSItem.h */,
-				1BC89DA616BB5DEB006E20B1 /* RSSItem.m */,
-				1BC89DA816BB6BDF006E20B1 /* WebViewController.h */,
-				1BC89DA916BB6BDF006E20B1 /* WebViewController.m */,
 			);
 			path = Nerdfeed;
 			sourceTree = "<group>";
@@ -313,6 +313,7 @@
 				1BC89D9E16BA22D9006E20B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
