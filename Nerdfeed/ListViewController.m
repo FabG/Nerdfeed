@@ -225,7 +225,40 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if (rssType == ListViewControllerRSSTypeBNR)
     {
         NSLog(@"[LVC] BNR Request");
-        [[BNRFeedStore sharedStore] fetchRSSFeedWithCompletion:completionBlock];
+        channel = [[BNRFeedStore sharedStore]
+                   fetchRSSFeedWithCompletion:^(RSSChannel *obj, NSError *err) {
+            // replace the activity indicator
+            [[self navigationItem] setTitleView:currentTitleView];
+            
+            if (!err) {
+                // How many items are there currently?
+                int currentItemCount = [[channel items]count];
+                
+                // Set out channel to the merged one
+                channel = obj;
+                
+                // How many items are there now?
+                int newItemCount = [[channel items]count];
+                
+                // For each new item, insert a new row. The data source
+                // will take care of the rest.
+                int itemDelta = newItemCount - currentItemCount;
+                if (itemDelta > 0)
+                {
+                    NSMutableArray * rows = [NSMutableArray array];
+                    for (int i = 0; i < itemDelta; i++) {
+                        NSIndexPath *ip = [NSIndexPath indexPathForRow:i
+                                                             inSection:0];
+                        [rows addObject:ip];
+                    }
+                    
+                    [[self tableView] insertRowsAtIndexPaths:rows
+                                            withRowAnimation:UITableViewRowAnimationTop];
+                }
+            }
+        }];
+        
+        [[self tableView] reloadData];
     }
     else if (rssType == ListViewControllerRSSTypeApple)
     {

@@ -12,6 +12,7 @@
 @implementation RSSItem
 
 @synthesize title, link, parentParserDelegate;
+@synthesize publicationDate;
 
 - (void)parser:(NSXMLParser *)parser
     didStartElement:(NSString *)elementName
@@ -28,6 +29,9 @@
     else if ([elementName isEqual:@"link"]) {
         currentString = [[NSMutableString alloc] init];
         [self setLink:currentString];
+    } else if ([elementName isEqualToString:@"pubDate"]) {
+        // Create the string, but do not put it into an ivar yet
+        currentString = [[NSMutableString alloc]init];
     }
 }
 
@@ -41,8 +45,17 @@
     namespaceURI:(NSString *)namespaceURI
     qualifiedName:(NSString *)qName
 {
-    currentString = nil;
+    // If the pubDate ends, used a date formatter to turn it into an NSDate
+    if ([elementName isEqualToString:@"pubDate"]) {
+        static NSDateFormatter *dateFormatter = nil;
+        if (!dateFormatter) {
+            dateFormatter = [[NSDateFormatter alloc]init];
+            [dateFormatter setDateFormat:@"EEE, dd MM yyyy HH:mm:ss z"];
+        }
+        [self setPublicationDate:[dateFormatter dateFromString:currentString]];
+    }
     
+    currentString = nil;
     
     if ([elementName isEqual:@"item"]
         ||[elementName isEqual:@"entry"]) {
@@ -69,6 +82,7 @@
 {
     [aCoder encodeObject:title forKey:@"title"];
     [aCoder encodeObject:link forKey:@"link"];
+    [aCoder encodeObject:publicationDate forKey:@"publicationDate"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -77,8 +91,21 @@
     if (self) {
         [self setTitle:[aDecoder decodeObjectForKey:@"title"]];
         [self setLink:[aDecoder decodeObjectForKey:@"link"]];
+        [self setPublicationDate:[aDecoder decodeObjectForKey:@"publicationDate"]];
     }
     return self;
 }
+
+// Caching - Check for duplicates (for when response comes back)
+- (BOOL)isEqual:(id)object
+{
+    // Make sure we are comparing an RSSItem
+    if (![object isKindOfClass:[RSSItem class]])
+        return NO;
+    
+    // Now only return YES if the links ar equal
+    return [[self link] isEqual:[object link]];
+}
+
 
 @end

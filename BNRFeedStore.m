@@ -43,7 +43,7 @@
 // Takes two arguments: a pointer to an RSSChannel and a pointer to an NSError object. If the request was a
 // success, the RSSChannel will be passed as an argument, and the NSError will be nil. If there was a problem,
 // an instance of NSError will be passed as an argument, and the RSSChannel will be nil.
-- (void)fetchRSSFeedWithCompletion:(void (^)(RSSChannel *, NSError *))block
+- (RSSChannel *)fetchRSSFeedWithCompletion:(void (^)(RSSChannel *, NSError *))block
 {
     NSLog(@"\t[BNRStore] fetchRSSFeedWithCompletion block");
     NSURL *url = [NSURL URLWithString:@"http://forums.bignerdranch.com/"
@@ -59,7 +59,34 @@
     BNRConnection *actorConnection = [[BNRConnection alloc] initWithRequest:req];
     
     // When the connection completes, this block from the controller will be called
-    [actorConnection setCompletionBlock:block];
+    NSString *cachePath =
+        [NSSearchPathForDirectoriesInDomains(NSCachesDirectory,
+                                             NSUserDomainMask,
+                                             YES) objectAtIndex:0];
+    
+    cachePath = [cachePath stringByAppendingPathComponent:@"nerd.archive"];
+    
+    // Load the cached channel
+    RSSChannel *cachedChannel =
+        [NSKeyedUnarchiver unarchiveObjectWithFile:cachePath];
+                                 
+    // If one hasn't already been cached, create a blank one to fill up
+    if (!cachedChannel)
+        cachedChannel = [[RSSChannel alloc] init];
+    
+    RSSChannel *channelCopy = [cachedChannel copy];
+    
+    [actorConnection setCompletionBlock:^(RSSChannel *obj, NSError * err) {
+        // This is the store's callback code
+        if (!err) {            
+            [channelCopy addItemsFromChannel:obj];
+            [NSKeyedArchiver archiveRootObject:channelCopy
+                                        toFile:cachePath];
+        }
+        
+        // This is the controller's callback code
+        block (channelCopy, err);
+    }];
     
     // Let the empty channel parse the returning data from the web service
     [actorConnection setXmlRootObject:channel];
@@ -68,6 +95,7 @@
     NSLog(@"\t[BNRStore] actorConnection start");
     [actorConnection start];
     
+    return cachedChannel;
 }
 
 // Store (block) for iTunes:

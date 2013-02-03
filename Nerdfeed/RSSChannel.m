@@ -155,4 +155,36 @@
     return self;
 }
 
+- (void)addItemsFromChannel:(RSSChannel *)otherChannel
+{
+    for (RSSItem *i in [otherChannel items]) {
+        // if self's items does not contain this item, add it
+        if (![[self items] containsObject:i])
+            [[self items] addObject:i];
+    }
+    
+    // Sort the array of items by publication date
+    // The method sortUsingComparator: is a nifty tool for sorting an NSMutableArray.
+    // It takes a block that takes two object pointers as an argument and returns an
+    // NSComparisonResult. (An NSComparisonResult is a data type whose value can tell us
+    // the sorted order of two objects.) When this method executes, it compares each item
+    // in the array by passing two of them at a time as arguments to the supplied block.
+    // The block returns which of the two objects is ordered before the other as an
+    // NSComparisonResult.
+    [[self items] sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [[obj2 publicationDate] compare:[obj1 publicationDate]];
+    }];
+}
+
+- (id)copyWithZone: (NSZone *) zone
+{
+    RSSChannel *c = [[[self class] alloc] init];
+    
+    [c setTitle:[self title]];
+    [c setInfoString:[self infoString]];
+    c->items = [items mutableCopy];     // can access it as it's part of the same class (private)
+    
+    return c;
+}
+
 @end
