@@ -194,6 +194,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     void (^completionBlock) (RSSChannel *obj, NSError *err) =
     ^(RSSChannel *obj, NSError *err) {
         // When the request completes, this block will be called
+        NSLog(@"[LVC] completion Block called!");
         
         // replace the indicator with the segmented control
         [[self navigationItem] setTitleView:currentTitleView];
@@ -231,6 +232,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         NSLog(@"[LVC] Apple Request");
         [[BNRFeedStore sharedStore] fetchTopSongs:10 withCompletion:completionBlock];
     }
+    
+    NSLog(@"[LVC] Executing code at the end of fetchEntries");
     
 }
 @end

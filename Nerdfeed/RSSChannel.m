@@ -136,4 +136,23 @@
         [items addObject:i];
     }
 }
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:items forKey:@"items"];
+    [aCoder encodeObject:title forKey:@"title"];
+    [aCoder encodeObject:infoString forKey:@"infoString"];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self) {
+        items = [aDecoder decodeObjectForKey:@"items"];
+        [self setInfoString:[aDecoder decodeObjectForKey:@"infoString"]];
+        [self setTitle:[aDecoder decodeObjectForKey:@"tite"]];
+    }
+    return self;
+}
+
 @end
