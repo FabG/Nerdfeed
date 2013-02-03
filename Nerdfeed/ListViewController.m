@@ -181,10 +181,23 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 // to the right store request method.
 - (void)fetchEntries
 {
+    // Get ahold of the segmented control that is currently in the title view
+    UIView *currentTitleView = [[self navigationItem] titleView];
+    
+    // Create a loading indicator and start it spinning in the nav bar
+    UIActivityIndicatorView *aiView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    [[self navigationItem]setTitleView:aiView];
+    [aiView startAnimating];
+    
+
     NSLog(@"[LVC] fetchEntries");
     void (^completionBlock) (RSSChannel *obj, NSError *err) =
     ^(RSSChannel *obj, NSError *err) {
         // When the request completes, this block will be called
+        
+        // replace the indicator with the segmented control
+        [[self navigationItem] setTitleView:currentTitleView];
+        
         if (!err) {
             // if everything went ok, grab the channel object, and reload the table
             channel = obj;
