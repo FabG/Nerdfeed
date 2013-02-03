@@ -9,6 +9,7 @@
 #import "BNRFeedStore.h"
 #import "RSSChannel.h"
 #import "BNRConnection.h"
+#import "RSSItem.h"
 
 // STORE to handle connections: BNRFeedStore will be a singleton
 // All controllers access the same instance of BNRFeedStore
@@ -22,6 +23,40 @@
         feedStore = [[BNRFeedStore alloc]init];
     
     return feedStore;
+}
+
+// init method to create the appropriate objects for Core Data to work.
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        model = [NSManagedObjectModel mergedModelFromBundles:nil];
+        
+        NSPersistentStoreCoordinator *psc =
+            [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+        
+        NSError *error = nil;
+        NSString *dbPath =
+            [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                 NSUserDomainMask,
+                                                 YES)objectAtIndex:0];
+        dbPath = [dbPath stringByAppendingPathComponent:@"feed.db"];
+        NSURL *dbURL = [NSURL fileURLWithPath:dbPath];
+        
+        if (![psc addPersistentStoreWithType:NSSQLiteStoreType
+                               configuration:nil
+                                         URL:dbURL
+                                     options:nil
+                                       error:&error]) {
+            [NSException raise:@"Open failed" format:@"Reason: %@", [error localizedDescription]];
+        }
+        context = [[NSManagedObjectContext alloc]init];
+        [context setPersistentStoreCoordinator:psc];
+        
+        [context setUndoManager:nil];
+    }
+    return self;
+
 }
 
 // We need this date to persist between runs of the application, so it needs to be stored
@@ -175,5 +210,49 @@
     NSLog(@"\t[BNRStore] actorConnection start");
     [connection start];
 }
+
+
+// implement markItemAsRead: to insert a new Link entity into Core Data with the URL of
+// the RSSItem’s link.
+- (void)markItemAsRead:(RSSItem *)item
+{
+    // If the item is already in Core data, no need for duplicates
+    if ([self hasItemBeenRead:item])
+        return;
+    
+    // Create a new Link object and insert it into the context
+    NSManagedObject *obj = [NSEntityDescription
+                            insertNewObjectForEntityForName:@"Link"
+                            inManagedObjectContext:context];
+
+    // Set the Link's urlString from the RSSItem
+    [obj setValue:[item link] forKey:@"urlString"];
+    
+    // immediately save the changes
+    [context save:nil];
+}
+
+
+// implement hasItemBeenRead: to return YES if the RSSItem passed as an argument has its link
+// stored in Core Data
+- (BOOL)hasItemBeenRead:(RSSItem *)item
+{
+    // Create a request to fetch all link's with the same urlString as this item link
+    NSFetchRequest *req = [[NSFetchRequest alloc] initWithEntityName:@"Link"];
+    
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"urlString like %@", [item link]];
+    
+    [req setPredicate:pred];
+    
+    // If there is at least one Link, then this item has been read before
+    NSArray *entries = [context executeFetchRequest:req error:nil];
+    if ([entries count] > 0)
+        return YES;
+    
+    // If Core Data has never seen this link, then it hasn't been read
+    return NO;
+    
+}
+
 
 @end

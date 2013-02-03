@@ -151,6 +151,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     // Grab the selected item
     RSSItem *entry = [[channel items] objectAtIndex:[indexPath row]];
     
+    [[BNRFeedStore sharedStore] markItemAsRead:entry];
+    
+    // Immediately add a checkmark to this row
+    [[[self tableView] cellForRowAtIndexPath:indexPath]
+                setAccessoryType:UITableViewCellAccessoryCheckmark];
+    
     [webViewController listViewController:self handleObject:entry];
 }
 
@@ -171,6 +177,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }
     RSSItem *item = [[channel items] objectAtIndex:[indexPath row]];
     [[cell textLabel] setText:[item title]];
+    
+    // show check mark for each row whose RSSI has been read
+    if ([[BNRFeedStore sharedStore] hasItemBeenRead:item]) {
+        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    } else {
+        [cell setAccessoryType:UITableViewCellAccessoryNone];
+    }
     
     return cell;
 }

@@ -29,6 +29,8 @@
 		1BC89DF616BDD7B4006E20B1 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC89DF516BDD7B4006E20B1 /* Default-Portrait@2x~ipad.png */; };
 		1BC89DF816BDD7C0006E20B1 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC89DF716BDD7C0006E20B1 /* Default-Landscape~ipad.png */; };
 		1BC89DFA16BDD7C5006E20B1 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BC89DF916BDD7C5006E20B1 /* Default-Landscape@2x~ipad.png */; };
+		1BC89DFC16BF00D1006E20B1 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC89DFB16BF00D1006E20B1 /* CoreData.framework */; };
+		1BC89DFF16BF0121006E20B1 /* Nerdfeed.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1BC89DFD16BF0120006E20B1 /* Nerdfeed.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +68,8 @@
 		1BC89DF516BDD7B4006E20B1 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		1BC89DF716BDD7C0006E20B1 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		1BC89DF916BDD7C5006E20B1 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		1BC89DFB16BF00D1006E20B1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		1BC89DFE16BF0121006E20B1 /* Nerdfeed.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Nerdfeed.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BC89DFC16BF00D1006E20B1 /* CoreData.framework in Frameworks */,
 				1BC89D8316BA22D9006E20B1 /* UIKit.framework in Frameworks */,
 				1BC89D8516BA22D9006E20B1 /* Foundation.framework in Frameworks */,
 				1BC89D8716BA22D9006E20B1 /* CoreGraphics.framework in Frameworks */,
@@ -85,6 +90,8 @@
 		1BC89D7616BA22D8006E20B1 = {
 			isa = PBXGroup;
 			children = (
+				1BC89DFD16BF0120006E20B1 /* Nerdfeed.xcdatamodeld */,
+				1BC89DFB16BF00D1006E20B1 /* CoreData.framework */,
 				1BC89DF916BDD7C5006E20B1 /* Default-Landscape@2x~ipad.png */,
 				1BC89DF716BDD7C0006E20B1 /* Default-Landscape~ipad.png */,
 				1BC89DF516BDD7B4006E20B1 /* Default-Portrait@2x~ipad.png */,
@@ -235,6 +242,7 @@
 				1BC89DAD16BC29FB006E20B1 /* ChannelViewController.m in Sources */,
 				1BC89DB016BD611B006E20B1 /* BNRFeedStore.m in Sources */,
 				1BC89DB316BD747A006E20B1 /* BNRConnection.m in Sources */,
+				1BC89DFF16BF0121006E20B1 /* Nerdfeed.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,6 +362,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1BC89DFD16BF0120006E20B1 /* Nerdfeed.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1BC89DFE16BF0121006E20B1 /* Nerdfeed.xcdatamodel */,
+			);
+			currentVersion = 1BC89DFE16BF0121006E20B1 /* Nerdfeed.xcdatamodel */;
+			path = Nerdfeed.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 1BC89D7716BA22D8006E20B1 /* Project object */;
 }
